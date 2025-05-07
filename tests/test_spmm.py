@@ -101,7 +101,7 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, default=20, help="Random seed value")
     parser.add_argument("--num_nodes", type=int, default=8192, help="Number of nodes")
     parser.add_argument(
-        "--density", type=float, default=0.01, help="Density of the matrix"
+        "--density", type=float, default=0.1, help="Density of the matrix"
     )
     parser.add_argument("--num_feats", type=int, default=512, help="Feature dimension")
     args = parser.parse_args()
