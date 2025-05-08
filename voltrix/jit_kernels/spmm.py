@@ -18,11 +18,11 @@ def feature_hash(feature: torch.Tensor) -> int:
     """
     Hash a feature tensor to an integer.
 
-    # For a simple and native implementation, we just use the tensor memory address.
-    # This is not a suitable hash function, but the weight feature tensor is static and
-    # will not change during the lifetime of the program.
-    # NOTE:
-    # We assume that the feature tensor's memory shape and layout will not change.
+    For a simple and native implementation, we just use the tensor memory address.
+    This is not a suitable hash function, but the weight feature tensor is static and
+    will not change during the lifetime of the program.
+    NOTE:
+    We assume that the feature tensor's memory shape and layout will not change.
     """
     # if tensor's hash_tag attr is set, use it
     if hasattr(feature, "hash_tag") and isinstance(feature.hash_tag, str):
@@ -30,10 +30,10 @@ def feature_hash(feature: torch.Tensor) -> int:
 
     warnings.warn(
         "The feature tensor(i.e. `hspa_packed`)'s hash_tag attr is not set. "
-        "Voltrix will use the '0' as the key value for profiling, "
+        "Voltrix will use the memory address as the key value for profiling, "
         "which may lead to performance degradation of different cases."
     )
-    return hash_to_hex("0")
+    return hash_to_hex(str(feature.data_ptr()))
 
 
 def spmm_kernel(

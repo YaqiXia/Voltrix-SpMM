@@ -5,6 +5,7 @@ __pycache__
 *.csv
 *.mtx
 *.zip
+*.log
 datasets
 gespmm
 tcgnn
