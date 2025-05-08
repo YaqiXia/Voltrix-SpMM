@@ -1,0 +1,9 @@
+[submodule "third-party/DTC-SpMM"]
+	path = third-party/DTC-SpMM
+	url = https://github.com/HPMLL/DTC-SpMM_ASPLOS24.git
+[submodule "third-party/TC-GNN"]
+	path = third-party/TC-GNN
+	url = https://github.com/YukeWang96/TC-GNN_ATC23.git
+[submodule "third-party/RoDe"]
+	path = third-party/RoDe
+	url = https://github.com/CRAFT-THU/RoDe
