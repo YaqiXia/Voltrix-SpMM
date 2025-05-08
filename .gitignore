@@ -2,3 +2,9 @@
 *.egg-info
 __pycache__
 .*cu
+*.csv
+*.mtx
+*.zip
+datasets
+gespmm
+tcgnn
