@@ -1,4 +1,3 @@
-
 # Voltrix-SpMM 
 <p align="center">
   <img src="Voltrix_logo.jpeg" alt="Voltrix Logo" width="300"/>
@@ -162,7 +161,7 @@ export VOLTRIX_PRINT_AUTO_TUNE=1
 
 
 
-## 🧪 Run SpMM Test 
+## 🧭 Run SpMM Test 
 
 Execute the following command to run a basic SpMM functionality test:
 
