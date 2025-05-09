@@ -1,8 +1,9 @@
-# Voltrix-SpMM 
 <p align="center">
-  <img src="Voltrix_logo.jpeg" alt="Voltrix Logo" width="300"/>
+  <img src="Voltrix_logo.jpeg" alt="Voltrix Logo" width="1000"/>
 </p>
 
+
+# Voltrix-SpMM 
 **Artifact Evaluation for the paper** : *"Revitalizing Sparse Matrix-Matrix Multiplication on Tensor Cores with Asynchronous and Balanced Kernel Optimization"*
 
 Welcome to Voltrix-SpMM! This is a high-performance sparse matrix-matrix multiplication (SpMM) library specifically optimized for the NVIDIA Hopper architecture. It leverages advanced GPU features of modern hardware, such as the Tensor Memory Accelerator (`TMA`) and `mbarrier`, to achieve state-of-the-art performance.
@@ -17,7 +18,7 @@ Welcome to Voltrix-SpMM! This is a high-performance sparse matrix-matrix multipl
 ### Hardware 
 
  
-- **GPU Architecture:**  NVIDIA Hopper or newer (compute capability **SM ≥ 90** ).
+- **GPU Architecture:**  NVIDIA Hopper or newer (compute capability **≥ 90** ).
 
 Voltrix **requires NVIDIA Hopper-specific architectural features** , including **Tensor Memory Accelerator (TMA)**  for high-throughput memory movement and **mbarrier**  for efficient thread synchronization. 
 
@@ -25,9 +26,7 @@ Voltrix **requires NVIDIA Hopper-specific architectural features** , including *
 ### Software 
 
  
-- **CUDA Toolkit:**  ≥ **12.1**
- 
-- **NVCC Compiler:**  ≥ **12.3**
+- **CUDA VERSION:**  ≥ **12.1**
  
 - **Python:**  ≥ **3.12**
  
@@ -107,6 +106,7 @@ Expected output:
 
 
 ```bash
+...
 JIT test passed
 ```
 
@@ -138,7 +138,7 @@ Voltrix-SpMM exposes several environment variables to support **debugging** , **
 ### Example: Setting Variables in Shell 
 
 
-You can configure these variables by exporting them in your shell session:
+You can optinally configure these variables by exporting them in your shell session:
 
 
 
@@ -245,7 +245,7 @@ bash ./build_dtc.sh
 ```
 
 
-#### 1.4 Build RoDe 
+#### 1.4 Build RoDe & Sputnik
 
 
 
@@ -273,7 +273,7 @@ make -j $(nproc) # Use all available cores for parallel compilation
 
 
 
-### Step 2: Build Benchmark Scripts 
+### Step 2: Build TC-GNN and GE-SpMM Benchmark Scripts 
 
 
 
@@ -333,7 +333,7 @@ python bench_all.py
 ```
 
 
-This will run all benchmarks and compare Voltrix-SpMM against baseline methods. Results are typically output to the console and a specified csv file.
+This will run all benchmarks and compare Voltrix-SpMM against baseline methods. Results are output to the console and write to `bench/results.csv` file.
 
 
 
