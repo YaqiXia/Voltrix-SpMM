@@ -1,10 +1,12 @@
 .vscode
+dist
 *.egg-info
 __pycache__
 .*cu
 *.csv
 *.mtx
 *.zip
+*.log
 datasets
 gespmm
 tcgnn
