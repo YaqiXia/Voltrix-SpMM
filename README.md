@@ -100,7 +100,7 @@ This allows your modifications to the source code to take effect immediately wit
 ```bash
 python tests/test_jit.py
 ```
-
+Voltrix uses extensive template programming to optimize kernel performance. With JIT (Just-In-Time) compilation, kernel parameters are tuned dynamically at runtime, allowing Voltrix to select the **optimal kernel**  based on hardware capabilities. This tuning process involves automatically adjusting kernel configurations to achieve the best performance, making Voltrix highly efficient for SpMM on Tensor Cores.
 
 Expected output:
 
@@ -111,7 +111,7 @@ JIT test passed
 ```
 
 
-This indicates that the JIT compilation feature is successfully configured and working.
+This confirms that the **JIT compilation was successful** , and the kernel tuning has been completed.
 
 
 
@@ -169,6 +169,15 @@ Execute the following command to run a basic SpMM functionality test:
 python tests/test_spmm.py
 ```
 
+**Accuracy Test:** 
+ 
+  - The **difference rate**  represents the **discrepancy**  between Voltrix-SpMM's output and the reference output from **cuSPARSE**  (NVIDIA’s cuSPARSE library).
+ 
+  - A **low difference rate**  indicates that Voltrix-SpMM is producing highly accurate results, close to the standard reference.
+ 
+**Performance Test:** 
+ 
+  - The test also reports the **execution time**  for both Voltrix-SpMM and cuSPARSE, allowing for a comparison of **performance**  in terms of **milliseconds (ms)** 
 
 Example output:
 
