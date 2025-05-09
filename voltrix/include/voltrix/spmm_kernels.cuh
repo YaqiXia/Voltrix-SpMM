@@ -25,6 +25,25 @@
 
 namespace voltrix {
 
+#define CUDA_CHECK(condition)                                                  \
+  do {                                                                         \
+    cudaError_t error = condition;                                             \
+    if (error != cudaSuccess) {                                                \
+      std::string msg =                                                        \
+          "CUDA error: " + std::string(cudaGetErrorString(error)) + " at " +   \
+          std::string(__FILE__) + ":" + std::to_string(__LINE__);              \
+      throw std::runtime_error(msg);                                           \
+    }                                                                          \
+  } while (0)
+
+void check_error(const char *message = "") {
+  cudaError_t error = cudaGetLastError();
+  if (error != cudaSuccess) {
+    std::cerr << message << ": " << cudaGetErrorString(error) << std::endl;
+    exit(1);
+  }
+};
+
 inline __device__ float our_float_to_tf32(float in) {
   float ret;
   asm volatile("{\n  .reg .b32 __$1;  // TAG2"
@@ -1990,7 +2009,8 @@ void voltrix_spmm_forward_cuda(
     float *__restrict__ output,      // aggreAGNNed output feature matrix.
     int32_t model, cudaStream_t stream) {
 
-  //   cudaStream_t steam = at::cuda::getCurrentCUDAStream();
+  constexpr auto extra_dynamic_shared_memory = 226 * 1024;
+
   if (model == 0) {
     constexpr int32_t NUM_AGENTS = 2;
     constexpr int32_t PADDING_SIZE = 8;
@@ -2014,13 +2034,9 @@ void voltrix_spmm_forward_cuda(
         spmm_mma161616_spa_swizzle_d<NUM_AGENTS, NUM_BUFFERS, MAX_MMAS_PER_WARP,
                                      CONSUMER_WARPS_PER_BLOCK, PADDING_SIZE>;
 
-    static int32_t _unused = [&]() {
-      constexpr auto extra_dynamic_shared_memory = 3.5 * 64 * 1024;
-      cudaFuncSetAttribute(spmm_func,
-                           cudaFuncAttributeMaxDynamicSharedMemorySize,
-                           extra_dynamic_shared_memory);
-      return 0;
-    }();
+    CUDA_CHECK(cudaFuncSetAttribute(spmm_func,
+                                    cudaFuncAttributeMaxDynamicSharedMemorySize,
+                                    extra_dynamic_shared_memory));
 
     spmm_func<<<GRID, BLOCK, DENSE_X_SHARED_MEMORY_SIZE * 2, stream>>>(
         blks_offsets, hspa_packed, hind, num_nodes, num_edges, embedding_dim,
@@ -2048,13 +2064,9 @@ void voltrix_spmm_forward_cuda(
         spmm_mma161616_spa_swizzle_d<NUM_AGENTS, NUM_BUFFERS, MAX_MMAS_PER_WARP,
                                      CONSUMER_WARPS_PER_BLOCK, PADDING_SIZE>;
 
-    static int32_t _unused = [&]() {
-      constexpr auto extra_dynamic_shared_memory = 3.5 * 64 * 1024;
-      cudaFuncSetAttribute(spmm_func,
-                           cudaFuncAttributeMaxDynamicSharedMemorySize,
-                           extra_dynamic_shared_memory);
-      return 0;
-    }();
+    CUDA_CHECK(cudaFuncSetAttribute(spmm_func,
+                                    cudaFuncAttributeMaxDynamicSharedMemorySize,
+                                    extra_dynamic_shared_memory));
 
     spmm_func<<<GRID, BLOCK, DENSE_X_SHARED_MEMORY_SIZE * 2, stream>>>(
         blks_offsets, hspa_packed, hind, num_nodes, num_edges, embedding_dim,
@@ -2087,21 +2099,17 @@ void voltrix_spmm_forward_cuda(
                                       MAX_MMAS_PER_WARP,
                                       CONSUMER_WARPS_PER_BLOCK, PADDING_SIZE>;
 
-    static int32_t _unused = [&]() {
-      constexpr auto extra_dynamic_shared_memory = 3.5 * 64 * 1024;
-      cudaFuncSetAttribute(spmm_func,
-                           cudaFuncAttributeMaxDynamicSharedMemorySize,
-                           extra_dynamic_shared_memory);
-      return 0;
-    }();
+    CUDA_CHECK(cudaFuncSetAttribute(spmm_func,
+                                    cudaFuncAttributeMaxDynamicSharedMemorySize,
+                                    extra_dynamic_shared_memory));
 
     spmm_func<<<GRID, BLOCK, DENSE_X_SHARED_MEMORY_SIZE * 2, stream>>>(
         blks_offsets, hspa_packed, hind, num_nodes, num_edges, embedding_dim,
         input, output);
-
   } else {
     throw std::runtime_error("Invalid model");
   }
+  check_error("Kernel launch failed");
 }
 
 } // namespace voltrix

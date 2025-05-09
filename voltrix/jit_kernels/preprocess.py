@@ -68,6 +68,3 @@ def preprocess_kernel(
     )
 
     runtime(*args)
-
-
-
