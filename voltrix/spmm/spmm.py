@@ -44,15 +44,13 @@ def csr_preprocess(
     total_blocks = int(pointer1[-1].cpu().item())
     hspa = torch.zeros(
         (
-            total_blocks * BLK_H,
-            BLK_W,
+            total_blocks * BLK_H * BLK_W,
         ),
         dtype=torch.float32,
     ).cuda()
     hind = torch.zeros(
         (
-            total_blocks * BLK_H,
-            BLK_W,
+            total_blocks * BLK_W,
         ),
         dtype=torch.int32,
     ).cuda()

@@ -213,7 +213,7 @@ void hmat_cuda(const int32_t *nodePointer, const int32_t *edgeList,
 
 void hmat_packed_cuda(int32_t num_row_windows, const int32_t *Pointer1,
                       const float *hspa, uint32_t *hspa_packed) {
-  const int WARPperBlock = 1;
+  const int WARPperBlock = WPB;
 
   dim3 grid(num_row_windows, 1, 1);
   dim3 block(WARP_SIZE, WARPperBlock, 1);
@@ -227,7 +227,7 @@ void hmat_packed_cuda(int32_t num_row_windows, const int32_t *Pointer1,
 
 void hmat_packed_swizzle_cuda(int32_t num_row_windows, const int32_t *Pointer1,
                               const float *hspa, uint32_t *hspa_packed) {
-  const int WARPperBlock = 1;
+  const int WARPperBlock = WPB;
 
   dim3 grid(num_row_windows, 1, 1);
   dim3 block(WARP_SIZE, WARPperBlock, 1);
