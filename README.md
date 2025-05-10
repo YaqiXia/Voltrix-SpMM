@@ -79,7 +79,7 @@ conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvi
 # pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
 # Install other dependencies
-pip install scipy
+pip install scipy pandas matplotlib seaborn
 ```
 
 
@@ -335,7 +335,13 @@ python bench_all.py
 
 This will run all benchmarks and compare Voltrix-SpMM against baseline methods. Results are output to the console and write to `bench/results.csv` file.
 
+### Step 6 : Reproduce Main Results (Figure 9)
+```bash
+python plot.py
+```
 
+This script will generate a performance comparison plot between **Voltrix-SpMM**  and existing baselines such as **cuSPARSE** ,**Sputnik-SpMM**, **GE-SpMM**, **RoDe-SpMM**, **TC-GNN** , and **DTC-SpMM** , highlighting the average speedup across multiple datasets.
+The resulting figure will be saved to the current directory as `results.png`.
 
 ---
 
