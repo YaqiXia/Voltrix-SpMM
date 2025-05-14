@@ -43,7 +43,7 @@ Voltrix **requires NVIDIA Hopper-specific architectural features** , including *
 
 
 ```bash
-git clone git@github.com:YaqiXia/Voltrix-SpMM.git
+git clone https://github.com/YaqiXia/Voltrix-SpMM.git
 cd Voltrix-SpMM
 ```
 
