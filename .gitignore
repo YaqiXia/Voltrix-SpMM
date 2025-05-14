@@ -10,3 +10,4 @@ __pycache__
 datasets
 gespmm
 tcgnn
+*.ncu-rep
