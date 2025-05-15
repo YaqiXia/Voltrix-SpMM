@@ -25,6 +25,9 @@ Voltrix **requires NVIDIA Hopper-specific architectural features** , including *
 
 ### Software 
 
+- **CMAKE VERSION:**  ≥ **3.17**
+
+- **GCC/G++ VERSION:**  ≥ **11**
  
 - **CUDA VERSION:**  ≥ **12.1**
  
@@ -38,13 +41,14 @@ Voltrix **requires NVIDIA Hopper-specific architectural features** , including *
 
 
 
-## 📦 Clone the Repository 
+## Clone the Repository 
 
 
 
 ```bash
 git clone https://github.com/YaqiXia/Voltrix-SpMM.git
 cd Voltrix-SpMM
+export CUDA_HOME = /usr/local/cuda
 ```
 
 
