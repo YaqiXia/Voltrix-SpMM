@@ -48,7 +48,6 @@ Voltrix **requires NVIDIA Hopper-specific architectural features** , including *
 ```bash
 git clone https://github.com/YaqiXia/Voltrix-SpMM.git
 cd Voltrix-SpMM
-export CUDA_HOME = /usr/local/cuda
 ```
 
 
@@ -338,6 +337,9 @@ python bench_all.py
 
 
 This will run all benchmarks and compare Voltrix-SpMM against baseline methods. Results are output to the console and write to `bench/results.csv` file.
+
+**Note:** The full benchmarking process may take several hours to complete depending on your hardware configuration. Please be patient.
+
 
 ### Step 6 : Reproduce Main Results (Figure 9)
 ```bash
