@@ -227,6 +227,17 @@ export VOLTRIX_PATH=$(pwd)
 git submodule update --init --recursive
 ```
 
+**Note:**  Running the above commands may produce the following error messages:
+
+
+```pgsql
+fatal: No url found for submodule path 'third-party/TC-GNN/TCGNN-bSpmm/cusparse/AIPowerMeter' in .gitmodules
+Failed to recurse into submodule path 'third-party/TC-GNN/TCGNN-bSpmm'
+Failed to recurse into submodule path 'third-party/TC-GNN'
+```
+
+
+These errors can be safely ignored and do not affect the normal usage of the code. 
 
 #### 1.2 Build TCGNN-PyTorch 
 
@@ -270,7 +281,7 @@ cmake .. \
 make -j $(nproc) # Use all available cores for parallel compilation
 ```
 
-
+**Note**: The build process may takes a considerable amount of time.
 
 ---
 
