@@ -17,7 +17,7 @@ if __name__ == "__main__":
     from dataset import *
 
     # import TCGNN
-    # 设置参数解析
+    # Set up argument parsing
     parser = argparse.ArgumentParser(description="Generate data with specified seed.")
     parser.add_argument("--seed", type=int, default=20, help="Random seed value")
     parser.add_argument("--num_feats", type=int, default=1024, help="Feature dimension")
@@ -54,37 +54,37 @@ if __name__ == "__main__":
     print("Indices:", column_index)
     print("Indptr:", row_pointers)
 
-    # 将 CSR 格式保存为 CSV 文件（行指针、列索引、非零值）
-    # np.savetxt("data.csv", A.data, delimiter=",")
+    # Save CSR format as CSV files (row pointers, column indices, non-zero values)
+    # np.savetxt("data.csv", A.data, delimiter=",") # This line was commented out in the original
     if not args.only_dense:
         np.savetxt("indices.csv", column_index, delimiter=",", fmt="%d")
         np.savetxt("indptr.csv", row_pointers, delimiter=",", fmt="%d")
 
     # print("CSR Matrix A (dense format):")
-    # print(A.toarray())  # 将 CSR 矩阵转换为稠密矩阵并打印
+    # print(A.toarray())  # Convert CSR matrix to dense matrix and print
 
     B = np.random.rand(num_nodes, num_feats)
     # B = dataset.x
 
-    # 打印矩阵B的形状和部分数据
+    # Print the shape and some data of matrix B
     # print("Matrix B shape:", B.shape)
     # print("Matrix B (first 2 rows):")
     # print(B[:2])
 
-    # 保存矩阵 B 为 CSV 文件，保留 3 位小数
+    # Save matrix B as a CSV file, keeping 3 decimal places
     def save_to_file(data, filename):
         with open(filename, "wb") as out_file:
             out_file.write(data.astype(np.float32).tobytes())
 
-    # np.savetxt("feat.csv", B, delimiter=",", fmt="%.3f")
+    # np.savetxt("feat.csv", B, delimiter=",", fmt="%.3f") # This line was commented out in the original
     save_to_file(B, "feat.csv")
 
     BLK_H = 16
 
     num_thd = int(114)
-    # num_thd = math.ceil(num_nodes / BLK_H) * num_feats // 512
+    # num_thd = math.ceil(num_nodes / BLK_H) * num_feats // 512 # This line was commented out in the original
     assert num_feats % BLK_H == 0, "num_feats should be multiple of BLK_H"
-    # assert num_nodes % BLK_H == 0, "num_nodes should be multiple of BLK_H"
+    # assert num_nodes % BLK_H == 0, "num_nodes should be multiple of BLK_H" # This line was commented out
     if num_nodes % BLK_H != 0:
         num_nodes = num_nodes + BLK_H - num_nodes % BLK_H
     base_size = num_nodes * num_feats // BLK_H**2 // num_thd
@@ -126,19 +126,19 @@ if __name__ == "__main__":
     import subprocess
     import os
 
-    # 假设矩阵的行数可以从 indptr 中推断
+    # Assume the number of rows in the matrix can be inferred from indptr
     num_rows = len(row_pointers) - 1
 
     data = np.ones_like(column_index, dtype=float)
-    # 构建 CSR 矩阵
+    # Construct CSR matrix
     A_csr = csr_matrix(
         (data, column_index, row_pointers), shape=(num_rows, column_index.max() + 1)
     )
 
-    # 转换为 COO 格式
+    # Convert to COO format
     A_coo = A_csr.tocoo()
 
-    # 保存为 Matrix Market 格式的 .mtx 文件
+    # Save as a .mtx file in Matrix Market format
     mmwrite("data.mtx", A_coo)
     print(f"Save to data.mtx")
 

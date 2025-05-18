@@ -6,67 +6,67 @@ import seaborn as sns
 sns.set(style="whitegrid")
 fontsize = 18
 datasets = ['amazon0505', 'DD', 'ppi', 'reddit', 'amazon0601', 'com-amazon', 'ddi', 'FraudYelp-RSR', 'web-BerkStan', 'protein', 'YeastH', 'Yeast']
-# 特征维度
+# Feature dimensions
 featdims = [256, 512, 1024]
-# 设置全局字体大小
+# Set global font size
 plt.rc('font', size=14)
 
-# 读取 CSV 文件
+# Read the CSV file
 df = pd.read_csv('results.csv')
 
 
-# 获取所有唯一的数据集和特征维度
-# datasets = sorted(df['Dataset'].unique())
+# Get all unique datasets and feature dimensions
+# datasets = sorted(df['Dataset'].unique()) # This line was commented out in the original code
 featdims = sorted(df['FeatDim'].unique())
 
-# 定义方法列表（移除 'PT-Embedding'）
-methods = ['cuSPARSE', 'Sputnik', 'GE-SPMM', 'RoDe', 
+# Define the list of methods (remove 'PT-Embedding')
+methods = ['cuSPARSE', 'Sputnik', 'GE-SPMM', 'RoDe',
            'TC-GNN', 'DTC-SPMM', 'Voltrix']
-methods_legend = ['cuSPARSE', 'Sputnik-SpMM', 'GE-SpMM', 'RoDe-SpMM', 
+methods_legend = ['cuSPARSE', 'Sputnik-SpMM', 'GE-SpMM', 'RoDe-SpMM',
            'TC-GNN', 'DTC-SpMM', 'Voltrix-SpMM']
 colors = plt.cm.viridis(np.linspace(0, 1, len(methods)))
 
-# 创建一个字典来存储数据
-# 数据结构: data[dataset][featdim][method] = time
-data = {dataset: {featdim: {method: np.nan for method in methods} 
-                 for featdim in featdims} 
+# Create a dictionary to store the data
+# Data structure: data[dataset][featdim][method] = time
+data = {dataset: {featdim: {method: np.nan for method in methods}
+                 for featdim in featdims}
         for dataset in datasets}
 
-# 填充数据字典
+# Populate the data dictionary
 for _, row in df.iterrows():
     method = row['Method']
     dataset = row['Dataset']
     featdim = row['FeatDim']
     time = row['Time (ms)']
-    
-    # 只处理定义好的方法和特征维度
+
+    # Only process defined methods and feature dimensions
     if method in methods and featdim in featdims:
-        # 处理 'NAN' 字符串，将其转换为 np.nan
+        # Handle 'NAN' strings, convert them to np.nan
         try:
             time = float(time)
         except ValueError:
             time = np.nan
         data[dataset][featdim][method] = time
 
-# 创建 3x4 的子图布局（因为有12个数据集）
+# Create a 3x4 subplot layout (because there are 12 datasets)
 fig, axs = plt.subplots(3, 4, figsize=(25, 11))
-axs = axs.flatten()  # 将子图数组展平，方便迭代
+axs = axs.flatten()  # Flatten the subplot array for easy iteration
 
-# 定义柱状图的宽度
+# Define the width of the bars in the bar chart
 width = 0.1
 
-# 遍历每个数据集
+# Iterate over each dataset
 for i, dataset in enumerate(datasets):
     ax = axs[i]
-    x = np.arange(len(featdims))  # 特征维度的位置
-    
-    # 获取 cuSPARSE 在不同特征维度下的时间作为基准
+    x = np.arange(len(featdims))  # Positions of feature dimensions
+
+    # Get cuSPARSE times for different feature dimensions as baseline
     cusparse_times = [data[dataset][featdim]['cuSPARSE'] for featdim in featdims]
-    
-    # 绘制每个方法的加速比
+
+    # Plot speedup for each method
     for j, method in enumerate(methods):
         if method == 'cuSPARSE':
-            speedups = [1.0 for _ in featdims]  # cuSPARSE 的加速比为1
+            speedups = [1.0 for _ in featdims]  # Speedup of cuSPARSE is 1
         else:
             speedups = []
             for k, featdim in enumerate(featdims):
@@ -76,33 +76,33 @@ for i, dataset in enumerate(datasets):
                     speedups.append(np.nan)
                 else:
                     speedups.append(cusparse_time / method_time)
-        
-        # 绘制条形图
+
+        # Plot the bar chart
         bars = ax.bar(x + j * width, speedups, width, label=methods_legend[j], color = colors[j], edgecolor='black')
-        
-        # 遍历每个 speedup，检查是否为 NaN
+
+        # Iterate over each speedup and check if it's NaN
         for idx, speedup in enumerate(speedups):
             if pd.isna(speedup):
-                # 获取柱状图的位置
+                # Get the position of the bar
                 bar_x = x[idx] + j * width
-                bar_y = 0.15  # 设置文本的y位置，确保在 y=0.1 以上
-                # 添加 "CUDA ERROR" 文本，竖直显示
-                ax.text(bar_x, bar_y, 'CUDA ERROR', rotation=90, 
+                bar_y = 0.15  # Set the y-position of the text, ensuring it's above y=0.1
+                # Add "CUDA ERROR" text, displayed vertically
+                ax.text(bar_x, bar_y, 'CUDA ERROR', rotation=90,
                         ha='center', va='bottom', fontsize=10, color=colors[j], fontweight='bold')
-    
-    # 设置标题和标签
+
+    # Set title and labels
     ax.set_title(dataset, fontsize=fontsize)
     ax.set_xticks(x + width * (len(methods) - 1) / 2)
     ax.set_xticklabels(featdims, fontsize = fontsize)
-    ax.set_ylim(bottom=0.1)  # 避免 log(0) 的问题
+    ax.set_ylim(bottom=0.1)  # Avoid log(0) issues
     ax.tick_params(axis='y', labelsize=fontsize)
-    # if i % 4 == 0:
-    #     ax.set_ylabel('Speedup over cuSPARSE', fontsize=14)
-    
-    # 添加网格线
+    # if i % 4 == 0: # This line was commented out in the original code
+    #     ax.set_ylabel('Speedup over cuSPARSE', fontsize=14) # This line was commented out
+
+    # Add grid lines
     ax.grid(True, which="both", ls="--", linewidth=0.5, alpha=0.7)
-    
-    # 计算 Voltrix 相对于 cuSPARSE 的加速比范围
+
+    # Calculate the speedup range of Voltrix relative to cuSPARSE
     voltrix_speedups = []
     for k, featdim in enumerate(featdims):
         voltrix_time = data[dataset][featdim]['Voltrix']
@@ -110,34 +110,34 @@ for i, dataset in enumerate(datasets):
         if not pd.isna(voltrix_time) and voltrix_time != 0:
             speedup = cusparse_time / voltrix_time
             voltrix_speedups.append(speedup)
-    
+
     if voltrix_speedups:
         min_speedup = np.min(voltrix_speedups)
         max_speedup = np.max(voltrix_speedups)
         speedup_str = f"{min_speedup:.2f}x - {max_speedup:.2f}x speedup"
     else:
         speedup_str = "N/A speed"
-    
-    # 设置横轴标题为 'Voltrix Speedup Range'
-    # 使用换行符实现多行标签
+
+    # Set the x-axis title to 'Voltrix Speedup Range'
+    # Use newline character for multi-line labels
     ax.set_xlabel(f"{speedup_str}", fontsize=fontsize)
     ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
-# 添加整体的纵轴标签
+# Add an overall y-axis label
 fig.text(0.045, 0.5, 'Speedup over cuSPARSE', va='center', rotation='vertical', fontsize=fontsize)
 
-# 设置图例（从最后一个子图获取）
+# Set the legend (get from the last subplot)
 handles, labels = axs[-1].get_legend_handles_labels()
-fig.legend(handles, labels, loc='upper center', 
+fig.legend(handles, labels, loc='upper center',
            bbox_to_anchor=(0.52, 0.98), fontsize=fontsize, ncol=7, frameon=False,
-            columnspacing=3.0,       # 调整列间距
-            handletextpad=0.7,       # 调整符号与文本之间的间距
-            handlelength=3.0,          # 调整符号长度)
+            columnspacing=3.0,       # Adjust column spacing
+            handletextpad=0.7,       # Adjust spacing between symbol and text
+            handlelength=3.0,          # Adjust symbol length
 )
 
-# 调整子图间距
+# Adjust subplot spacing
 plt.tight_layout(rect=[0.05, 0.05, 1, 0.95])
 
-# 显示图表
+# Display the chart
 plt.savefig('results.png', dpi=300, bbox_inches='tight')
 plt.show()
