@@ -141,12 +141,12 @@ void save_to_file(const std::vector<float> &data, const std::string &filename) {
   out_file.close();
 }
 
-// 比较浮点数是否相等，考虑误差
+// Compares if two floats are equal, considering tolerance
 bool are_floats_equal(float a, float b, float epsilon = 1e-6) {
   return std::fabs(a - b) < epsilon;
 }
 
-// 查找不相等元素的索引和对应的值
+// Finds the index and corresponding value of unequal elements
 void find_differences(const std::vector<float> &v1,
                       const std::vector<float> &v2, float epsilon = 1e-6,
                       std::string name = "") {
@@ -464,7 +464,7 @@ __global__ void hmat_convert_uint32_cuda_kernel(
         int element_idx = idx * 32 + bit;
         float val = hspa[element_idx + offset_spa];
         if (val != 0.0f) {
-          byte |= (1 << bit);  // 设置对应的位
+          byte |= (1 << bit); 
         }
       }
       packed_hspa[idx + offset_spa_packed] = byte;
@@ -693,7 +693,6 @@ int main() {
   printf("SM count: %d\n", prop.multiProcessorCount);
   printf("Max warp per SM: %d\n", prop.maxThreadsPerMultiProcessor / 32);
 
-  // 读取文件并初始化CSR矩阵的数据结构
   std::vector<float> feat;
   std::vector<int> indices, indptr;
 
@@ -712,7 +711,6 @@ int main() {
 
   size_t num_nodes = indptr.size() - 1;
   /*
-  // 打印读取结果
   std::cout << "CSR Matrix:" << std::endl;
 
   std::cout << "Indices: ";
@@ -736,7 +734,6 @@ int main() {
   std::cout << "num_nodes: " << num_nodes << std::endl;
   std::cout << "embedding_dim: " << embedding_dim << std::endl;
 
-  // 创建一个与 indices 长度相同的全 0 vector
   std::vector<int> edgeToColumn(num_edges, 0);
   std::vector<int> edgeToRow(num_edges, 0);
   std::vector<int> blockPartition(num_row_windows, 0);
@@ -811,7 +808,6 @@ int main() {
   printf("\n");
 */
 
-  // 分配 GPU 内存
   int *d_nodePointer, *d_edgeList, *d_blockPartition, *d_edgeToColumn,
       *d_edgeToRow, *d_Pointer1, *d_Pointer2, *d_local_map, *d_global_map;
   float *d_feat, *d_output, *d_output_base, *d_output1;
@@ -834,7 +830,6 @@ int main() {
 
   cudaMalloc(&d_block_offsets, block_offsets.size() * sizeof(int));
 
-  // 将数据从 CPU 传输到 GPU
   cudaMemcpy(d_nodePointer, indptr.data(), indptr.size() * sizeof(int),
              cudaMemcpyHostToDevice);
   cudaMemcpy(d_edgeList, indices.data(), indices.size() * sizeof(int),
@@ -863,17 +858,14 @@ int main() {
   //   printf("%d ", x);
   // }
 
-  // 计算数组大小
   int size_d_hspa = Pointer1.back() * BLK_W * BLK_H;
   int size_d_hind = Pointer1.back() * BLK_W;
   int size_d_hspa_packed = size_d_hspa / 32;
 
-  // 定义 GPU 上的指针
   float *d_hspa;
   int *d_hind;
   uint32_t *d_hspa_packed;
 
-  // 分配 GPU 内存
   cudaMalloc((void **)&d_hspa, size_d_hspa * sizeof(float));
   cudaMalloc((void **)&d_hind, size_d_hind * sizeof(int));
   cudaMalloc((void **)&d_hspa_packed, size_d_hspa_packed * sizeof(uint32_t));
@@ -958,7 +950,6 @@ int main() {
              num_nodes * embedding_dim * sizeof(float), cudaMemcpyDeviceToHost);
   load_from_file(output_ref, "output_base.csv");
 
-  // 打印部分输出
   std::cout << "Checking differences..." << std::endl;
   try {
     find_differences(output_vec, output_ref, 1e-1, "TC-GNN kernel");
