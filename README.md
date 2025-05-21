@@ -124,7 +124,7 @@ This confirms that the **JIT compilation was successful** , and the kernel tunin
 
 ## 🔧 Environment Variables Configuration
 
-Voltrix-SpMM exposes several environment variables to support **debugging** , **performance tuning** , and **custom compilation workflows** . These variables are defined in [project/const.py](https://chatgpt.com/c/project/const.py)  and can be configured at runtime.
+Voltrix-SpMM exposes several environment variables that act as **debugging flags** to observe **performance tuning** and **custom compilation workflows**. These variables are defined in [project/const.py] and can be configured at runtime.
 
 ### Key Environment Variables 
 
