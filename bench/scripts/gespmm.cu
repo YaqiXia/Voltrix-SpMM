@@ -467,7 +467,7 @@ __global__ void topoCacheCoarsenSPMMKernelE4(int m, int k,
 }
 
 int main() {
-  // 读取文件并初始化CSR矩阵的数据结构
+  // Read files and initialize CSR matrix data structures
   std::vector<float> feat;
   std::vector<int> indices, offsets;
 

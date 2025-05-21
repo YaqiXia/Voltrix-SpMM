@@ -20,7 +20,7 @@ def suppress_output(func, *args, **kwargs):
         os.dup2(fnull.fileno(), sys.stdout.fileno())
         os.dup2(fnull.fileno(), sys.stderr.fileno())
         try:
-            return func(*args, **kwargs)  # 运行函数
+            return func(*args, **kwargs) 
         finally:
             os.dup2(old_stdout, sys.stdout.fileno())
             os.dup2(old_stderr, sys.stderr.fileno())

@@ -140,7 +140,7 @@ hmat_convert_packed_cuda_kernel(const int *__restrict__ Pointer1,
         int element_idx = idx * 32 + bit;
         float val = hspa[element_idx + offset_spa];
         if (val != 0.0f) {
-          byte |= (1 << bit); // 设置对应的位
+          byte |= (1 << bit); 
         }
       }
       packed_hspa[idx + offset_spa_packed] = byte;
@@ -184,7 +184,7 @@ hmat_convert_uint32_swizzle_cuda_kernel(const int *__restrict__ Pointer1,
         float val = hspa[row * BLK_W + col + offset_spa];
 
         if (abs(val - 0.0f) > 1e-5) { // val != 0.0f
-          byte |= (1 << bit);         // 设置对应的位
+          byte |= (1 << bit);        
         }
       }
       packed_hspa[idx + offset_spa_packed] = byte;

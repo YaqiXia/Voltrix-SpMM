@@ -10,37 +10,37 @@ BLK_W = 8
 import DTCSpMM
 
 # ExecutionPlan = {
-#   # reorderd
-#   "YeastH.reorder": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"], 496: [False, "float", "nonsplit"]},
-#   "OVCAR-8H.reorder": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"], 496: [False, "float", "nonsplit"]},
-#   "Yeast.reorder": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"], 496: [False, "float", "nonsplit"]},
-#   "DD.reorder": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float4", "split"], 496: [False, "float4", "split"]},
-#   "web-BerkStan.reorder": {128: [False, "float2", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "nonsplit"], 496: [False, "float", "nonsplit"]},
-#   "reddit.reorder": {128: [True, "float4", "split"], 256: [True, "float4", "split"], 512: [True, "float4", "split"], 496: [True, "float4", "split"]},
-#   "ddi.reorder": {128: [True, "float", "nonsplit"], 256: [True, "float", "nonsplit"], 512: [True, "float4", "split"], 496: [True, "float4", "split"]},
-#   "protein.reorder": {128: [False, "float4", "split"], 256: [False, "float4", "split"], 512: [False, "float4", "split"], 496: [True, "float4", "split"]},
+#     # reorderd
+#     "YeastH.reorder": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"], 496: [False, "float", "nonsplit"]},
+#     "OVCAR-8H.reorder": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"], 496: [False, "float", "nonsplit"]},
+#     "Yeast.reorder": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"], 496: [False, "float", "nonsplit"]},
+#     "DD.reorder": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float4", "split"], 496: [False, "float4", "split"]},
+#     "web-BerkStan.reorder": {128: [False, "float2", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "nonsplit"], 496: [False, "float", "nonsplit"]},
+#     "reddit.reorder": {128: [True, "float4", "split"], 256: [True, "float4", "split"], 512: [True, "float4", "split"], 496: [True, "float4", "split"]},
+#     "ddi.reorder": {128: [True, "float", "nonsplit"], 256: [True, "float", "nonsplit"], 512: [True, "float4", "split"], 496: [True, "float4", "split"]},
+#     "protein.reorder": {128: [False, "float4", "split"], 256: [False, "float4", "split"], 512: [False, "float4", "split"], 496: [True, "float4", "split"]},
 
-#   # origin
-#   "YeastH": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"]},
-#   "OVCAR-8H": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"]},
-#   "Yeast": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"]},
-#   "DD": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float4", "split"]},
-#   "web-BerkStan": {128: [False, "float2", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "nonsplit"]},
-#   "reddit": {128: [False, "float4", "split"], 256: [False, "float4", "split"], 512: [False, "float4", "split"]},
-#   "ddi": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float4", "nonsplit"]},
-#   "protein": {128: [False, "float4", "split"], 256: [False, "float4", "split"], 512: [False, "float4", "split"]},
-#   # more
-#   "citeseer": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
-#   "cora": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"], 1024: [False, "float4", "split"], 2048: [False, "float4", "split"], 4096: [False, "float4", "split"], 8192: [False, "float4", "split"]},
-#   "pubmed": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
-#   "ppi": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
-#   "PROTEINS_full": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
-#   "OVCAR-8H": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
-#   "amazon0505": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
-#   "artist": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
-#   "com-amazon": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
-#   "soc-BlogCatalog": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
-#   "amazon0601": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
+#     # origin
+#     "YeastH": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"]},
+#     "OVCAR-8H": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"]},
+#     "Yeast": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float", "nonsplit"]},
+#     "DD": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float4", "split"]},
+#     "web-BerkStan": {128: [False, "float2", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "nonsplit"]},
+#     "reddit": {128: [False, "float4", "split"], 256: [False, "float4", "split"], 512: [False, "float4", "split"]},
+#     "ddi": {128: [False, "float", "nonsplit"], 256: [False, "float", "nonsplit"], 512: [False, "float4", "nonsplit"]},
+#     "protein": {128: [False, "float4", "split"], 256: [False, "float4", "split"], 512: [False, "float4", "split"]},
+#     # more
+#     "citeseer": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
+#     "cora": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"], 1024: [False, "float4", "split"], 2048: [False, "float4", "split"], 4096: [False, "float4", "split"], 8192: [False, "float4", "split"]},
+#     "pubmed": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
+#     "ppi": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
+#     "PROTEINS_full": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
+#     "OVCAR-8H": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
+#     "amazon0505": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
+#     "artist": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
+#     "com-amazon": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
+#     "soc-BlogCatalog": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
+#     "amazon0601": {128: [False, "float4", "nonsplit"], 256: [False, "float4", "nonsplit"], 512: [False, "float4", "split"]},
 # }
 
 ## Load matrix from files.
@@ -48,7 +48,7 @@ import DTCSpMM
 # Set your own path to the dataset.
 
 
-# 1. 读取 CSR 矩阵的三个部分（data, indices, indptr）并重建稀疏矩阵 A
+# 1. Read the three parts of the CSR matrix (data, indices, indptr) and reconstruct the sparse matrix A
 indices = np.loadtxt("indices.csv", delimiter=",", dtype=int)
 indptr = np.loadtxt("indptr.csv", delimiter=",", dtype=int)
 
@@ -119,15 +119,15 @@ print(blockPartition_cuda.sum())
 iters = 1000
 
 # import TES
-# Pointer1, Pointer2, local_map, global_map = TES.preprocess_hcsr(column_index, row_pointers, num_rows,  \
-#             BLK_H,	BLK_W, blockPartition, edgeToColumn, edgeToRow)
+# Pointer1, Pointer2, local_map, global_map = TES.preprocess_hcsr(column_index, row_pointers, num_rows,    \
+#             BLK_H,      BLK_W, blockPartition, edgeToColumn, edgeToRow)
 # Pointer1 = Pointer1.contiguous().cuda()
 # total_blocks = Pointer1[-1].cpu().item()
 # hspa = torch.zeros([total_blocks * BLK_W * BLK_H], dtype=torch.float32).cuda()
 # hind = torch.zeros([total_blocks * BLK_W], dtype=torch.int32).cuda()
-# blockPartition_ori  = blockPartition.cuda()
-# edgeToColumn_ori  = edgeToColumn.cuda()
-# edgeToRow_ori  = edgeToRow.cuda()
+# blockPartition_ori    = blockPartition.cuda()
+# edgeToColumn_ori    = edgeToColumn.cuda()
+# edgeToRow_ori    = edgeToRow.cuda()
 # TES.hmat_gen(row_pointers_ori, column_index_ori, blockPartition_ori, edgeToColumn_ori, edgeToRow_ori, Pointer1, hspa, hind)
 # Run tests.
 weight = torch.tensor(
@@ -160,10 +160,10 @@ if not balance_choice:
 else:
     X_out = DTCSpMM.run_DTCSpMM_balance(
         X,
-        TCblockRowid,  # 每个TC blocks的 行 idx
-        TCblocktileId,  # TC blocks中非零元素的位置展开后并在一起
-        TCblockoffset,  # 指导 TCblocktileId 中每个block的偏移量
-        SparseAToXindex,  # TC blocks数量 * 8
+        TCblockRowid,  # Row index for each TC block
+        TCblocktileId,  # Non-zero elements in TC blocks, flattened and concatenated
+        TCblockoffset,  # Offset for each block within TCblocktileId
+        SparseAToXindex,  # Number of TC blocks * 8
         num_rows,
         exeplan,
     )[0] / 1000

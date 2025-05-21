@@ -162,12 +162,12 @@ void load_from_file(std::vector<float> &data, const std::string &filename) {
   in_file.close();
 }
 
-// 比较浮点数是否相等，考虑误差
+// Compares if two floats are equal, considering tolerance
 bool are_floats_equal(float a, float b, float epsilon = 1e-6) {
   return std::fabs(a - b) < epsilon;
 }
 
-// 查找不相等元素的索引和对应的值
+// Finds the index and corresponding value of unequal elements
 void find_differences(const std::vector<float> &v1,
                       const std::vector<float> &v2, float epsilon = 1e-6,
                       std::string name = "") {
