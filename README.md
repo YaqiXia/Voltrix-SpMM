@@ -4,7 +4,7 @@
 
 
 # Voltrix-SpMM 
-**Artifact Evaluation for the paper** : *"Revitalizing Sparse Matrix-Matrix Multiplication on Tensor Cores with Asynchronous and Balanced Kernel Optimization"*
+🔥🔥🔥**Artifact Evaluation for our USENIX ATC '25 paper** : *"Voltrix: Sparse Matrix-Matrix Multiplication on Tensor Cores with Asynchronous and Balanced Kernel Optimization"*
 
 Welcome to Voltrix-SpMM! This is a high-performance sparse matrix-matrix multiplication (SpMM) library specifically optimized for the NVIDIA Hopper architecture. It leverages advanced GPU features of modern hardware, such as the Tensor Memory Accelerator (`TMA`) and `mbarrier`, to achieve state-of-the-art performance.
 
