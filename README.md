@@ -362,7 +362,20 @@ The resulting figure will be saved to the current directory as `results.png`.
 
 ---
 
+## 📚 Citation
 
+If you find this repository helpful for your research, please cite the following paper:
+
+```bibtex
+@inproceedings{xia2025voltrix,
+  title={Voltrix: Sparse $\{$Matrix-Matrix$\}$ Multiplication on Tensor Cores with Asynchronous and Balanced Kernel Optimization},
+  author={Xia, Yaqi and Wang, Weihu and Yang, Donglin and Zhou, Xiaobo and Cheng, Dazhao},
+  booktitle={2025 USENIX Annual Technical Conference (USENIX ATC 25)},
+  pages={699--714},
+  year={2025}
+}
+```
+---
 
 ## 📄 License 
 
